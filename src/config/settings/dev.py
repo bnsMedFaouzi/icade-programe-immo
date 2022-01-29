@@ -22,7 +22,12 @@ ALLOWED_HOSTS = getenv('ALLOWED_HOSTS', '0.0.0.0,').split(',')
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': normpath(join(PROJECT_ROOT, 'db.sqlite3')),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': getenv('POSTGRES_DB_DEFAULT', ''),
+        'USER': getenv('POSTGRES_USER', ''),
+        'PASSWORD': getenv('POSTGRES_PASSWORD', ''),
+        'HOST': getenv('POSTGRES_HOST', ''),
+        'PORT': getenv('POSTGRES_PORT', ''),
     }
 }
+
