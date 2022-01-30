@@ -9,19 +9,20 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
-from os.path import basename, dirname, join, normpath
+import sys
+from os.path import basename, dirname, join, normpath, abspath
 from sys import path
 from datetime import timedelta
 
-from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-CONFIG_ROOT = Path(__file__).resolve(strict=True).parent.parent
+CONFIG_ROOT = dirname(dirname(abspath(__file__)))
 
 # Absolute filesystem path to the project directory:
 PROJECT_ROOT = dirname(CONFIG_ROOT)
 
+# add apps/ to the Python path
+sys.path.append(normpath(join(PROJECT_ROOT, 'apps')))
 # Project name:
 PROJECT_NAME = 'ICADE-PROGRAM-IMMO'
 
@@ -57,10 +58,13 @@ DJANGO_APPS = (
 THIRD_PARTY_APPS = (
     'rest_framework',
     'corsheaders',
+    'drf_yasg2',
+
 )
 
 PROJECT_APPS = (
     'apps.prog_immo',
+    'apps.api_authentication'
 )
 # under the package extensions, call 'extensions.NameApp'
 EXTENSION_APPS = ()
@@ -189,9 +193,7 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated'
-    ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
+    ]
 }
 
 # --- END REST_FRAMEWORK CONFIGURATION

@@ -12,6 +12,8 @@ pylint = "*"
 pydocstyle = "*"
 django-cors-headers = "*"
 psycopg2 = "*"
+djangorestframework-camel-case = "*"
+drf-yasg2 = "*"
 
 [dev-packages]
 

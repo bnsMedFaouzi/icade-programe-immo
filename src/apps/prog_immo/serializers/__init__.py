@@ -1,0 +1,1 @@
+from .apartment_serializer import ApartmentSerializer
