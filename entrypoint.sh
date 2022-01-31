@@ -19,14 +19,14 @@ if [[ $DJANGO_ENV = "development" ]]; then
 
     #exit 0
   fi
-  echo -e "Create superuser admin \n"
+  echo -e "Create superuser admin \n***********\n"
   exec python src/manage.py create_admin  -u admin -e admin@admin.com -w admin -f admin -l admin &
   wait $!
   echo -e "Starting development server\n***********\n"
    exec python3 src/manage.py runserver 0.0.0.0:5000
-elif [[ $DJANGO_ENV = "testing" ]]; then
+elif [[ $DJANGO_ENV = "test" ]]; then
   echo -e "Running tests\n************\n"
-  exec pytest -c ./src/pytest.ini &
+  exec pytest -c ./src/pytest.ini
 else
   echo -e "Invalid config $DJANGO_ENV"
 fi
