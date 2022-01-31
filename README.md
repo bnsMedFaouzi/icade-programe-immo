@@ -119,7 +119,10 @@ to run the project type:
 docker-compose up --build
 ```
 
-Check 0.0.0.0:3000 on your browser!
+Check 0.0.0.0:5002 on your browser!
 
+#### Swagger API docs 
+
+Check http://0.0.0.0:5002/swagger/ on your browser!
 
 That's it.
