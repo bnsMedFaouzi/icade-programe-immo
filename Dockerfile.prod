@@ -1,0 +1,41 @@
+# temp stage
+FROM python:3.9-buster as compile-image
+
+WORKDIR /app
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+RUN python -m venv /opt/venv
+
+# Make sure we use the virtualenv:
+ENV PATH="/opt/venv/bin:$PATH"
+
+COPY ./requirements.txt ./requirements.txt
+
+RUN pip install --no-cache-dir -r ./requirements.txt
+
+COPY ./src/setup.py .
+COPY ./src/pytest.ini .
+
+COPY ./src ./src
+
+RUN pip install .
+
+# final stage
+FROM python:3.9-slim
+
+RUN addgroup --system django \
+  && adduser --system --ingroup django django
+
+COPY --from=compile-image --chown=django:django /opt/venv /opt/venv
+
+# Make sure we use the virtualenv:
+ENV PATH="/opt/venv/bin:$PATH"
+
+EXPOSE 80
+
+USER django
+
+COPY ./entrypoint.sh /entrypoint.sh
+ENTRYPOINT /entrypoint.sh
